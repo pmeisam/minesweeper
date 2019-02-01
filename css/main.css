@@ -1,0 +1,113 @@
+/* * {
+    box-sizing: border-box; 
+}*/
+body{
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background-image: url('../images/background.gif');
+    background-size: cover;
+    max-height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-flow: column wrap;
+}
+header {
+    background-color: transparent;
+    
+    font-size: 20px;
+    font-weight: 700;
+    height: 60px;
+}
+nav a:hover {
+    border-bottom: solid rgb(24, 226, 17) 3px;
+    /* border-color:  rgb(255, 17, 69); */
+}
+a {
+    color: rgb(255, 17, 69);
+    text-decoration: none;
+}
+nav {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    height: 60px;
+}
+.start:hover {
+    border: solid rgb(24, 226, 17) 4px;
+}
+.start{
+    margin-top: 60px;
+    color: rgb(255,17,69);
+    background-color: transparent;
+    border: none;
+    /* border-radius: 40px; */
+    /* padding: 40px 0; */
+    font-size: 30px;
+    font-weight: 900;
+    font-family: 'Orbitron', sans-serif;
+}
+main {
+    width: 510px;
+    margin: 50px auto;
+    border: solid rgb(255, 17, 69) 4px;
+    background-color: transparent;
+    text-align: center;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-flow: row wrap;
+}
+.flagboard {
+    width: 70px;
+    height: 70px;
+    background-color:black;
+    color: rgb(24, 226, 17);
+    margin: 0 10px;
+    border-radius: 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bolder;
+
+}
+.scoreboard {
+    width: 70px;
+    height: 70px;
+    background-color:black;
+    color: rgb(24, 226, 17);
+    margin: 0 10px;
+    border-radius: 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bolder;
+}
+.faceImg {
+    width: 70px;
+    height: 70px;
+    margin: 0 70px;
+}
+table {
+    /* margin-top: 40px; */
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+}
+.canvas {
+    text-align: center;
+    margin: 0;
+    border: none;
+    width: 500px;
+    /* height: 200px; */
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    /* 
+    align-items: center;
+    justify-content: center; */
+}
+#endGame {
+    height: 200px;
+    width: 200px;
+    background-color: red;
+    color: white;
+    font-size: 40px;
+    font-weight: 900;
+}
