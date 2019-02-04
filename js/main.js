@@ -15,14 +15,18 @@ const mineSweeper = {
 };
 
 /*----- app's state (variables) -----*/
-var cells, emptyBoxArray, mineArray, emptyBox, mine, current, gameOver;
+var cells, emptyBoxArray, mineArray, emptyBox, mine, current, gameOver, score, reveal, revealed;
 /*----- cached element references -----*/
 var canvas = document.querySelector('.canvas');
 var main = document.querySelector('main');
+var scoreBoard = document.querySelector(".scoreboard");
+var flagBoard = document.querySelector(".flagboard");
 /*----- event listeners -----*/
-var startBtn = document.querySelector('.start').addEventListener('click', init);
+var $startBtn =  $(".start");
+var $canvas = $("main");
 canvas.addEventListener('click', play);
 /*----- functions -----*/
+
 init();
 function init(){
     cells = {
@@ -31,10 +35,15 @@ function init(){
     }
     emptyBoxArray = [];
     mineArray = [];
-    mine = 0;
+    revealArray = [];
+    mines = 0;
     gameOver = false;
-    $(startBtn).toggle(3000);
-    render();
+    score = 0;
+    $startBtn.on('click', function(){
+        $canvas.fadeIn(3000);
+        $(render()).toggle(3000);
+        $startBtn.toggle(3000);
+    });
 }
 function render(){
     console.log("meisam");
@@ -48,7 +57,7 @@ function render(){
             emptyBoxArray[count].setAttribute("datay", cells.y);
             emptyBoxArray[count].id = count;
             canvas.appendChild(emptyBoxArray[count]);
-            main.style = 'display: flex;';
+            
             count++;
             cells.x++;
         }
@@ -61,20 +70,29 @@ function render(){
         cells.y++;
         count++;
     }
-    
-    for(var i = 0; i < 50; i++){
-        mineArray.push(Math.floor(Math.random() * 255 ));
+    while(mines < 50) {
+        var i = Math.floor(Math.random() * 255 );
+        if(!mineArray.includes(i)){
+            mineArray.push(i);
+            mines++;
+        }
+    }
+    for(var i = 0; i <= 256; i++ ){
+        if(mineArray.includes(i))
+            revealArray[i] = 'mine';
+        else
+            revealArray[i]=0
     }
     console.log(mineArray);
 }
 function play(evt) {
     var x = parseInt(evt.target.id%16);
     var y = parseInt(Math.floor(evt.target.id/16));
+    var idx = parseInt(evt.target.id);
     console.log(`(${x},${y})`);
     console.log(evt.target);
-    console.log(evt.target.id);
-    // console.log(`${evt.target.id%16}, ${Math.floor(evt.target.id/16)}`);
-
+    console.log(idx);
+    
     if( mineArray.includes(parseInt(evt.target.id)) ){
         evt.target.src = mineSweeper.mineImg;
         for(var i = 0; i < 256; i++){
@@ -84,14 +102,6 @@ function play(evt) {
         // alert("game over!!!");
     } else if (gameOver === false) {
         var count = 0;
-        // if ( mineArray.includes(((y-1)*16) + (x-1))) count++;
-        // if ( mineArray.includes(((y-1)*16) + (x))) count++;
-        // if ( mineArray.includes(((y-1)*16) + (x+1))) count++;
-        // if ( mineArray.includes(((y+1)*16) + (x-1))) count++;
-        // if ( mineArray.includes(((y+1)*16) + (x))) count++;
-        // if ( mineArray.includes(((y+1)*16) + (x+1))) count++;
-        // if ( mineArray.includes(((y)*16) + (x-1))) count++;
-        // if ( mineArray.includes(((y)*16) + (x+1))) count++;
         if ( arrayCheck((x-1),(y-1))) count++;
         if ( arrayCheck((x),(y-1))) count++;
         if ( arrayCheck((x+1),(y-1))) count++;
@@ -100,19 +110,16 @@ function play(evt) {
         if ( arrayCheck((x-1),(y+1))) count++;
         if ( arrayCheck((x),(y+1))) count++;
         if ( arrayCheck((x+1),(y+1))) count++;
-        // if ( count === 0 ){
-        //     var url = 'images/0.png';
-        //     if ( !arrayCheck(x,y)) emptyBoxArray[x][y].src = url;
-        //     if ( !arrayCheck((x-1),(y-1))) emptyBoxArray[x - 1][y - 1].src = url;
-        //     if ( !arrayCheck((x),(y-1))) emptyBoxArray[x][y - 1].src = url;
-        //     if ( !arrayCheck((x+1),(y-1))) emptyBoxArray[x + 1][y - 1].src = url;
-        //     if ( !arrayCheck((x-1),(y))) emptyBoxArray[x - 1][y].src = url;
-        //     if ( !arrayCheck((x+1),(y))) emptyBoxArray[x + 1][y].src = url;
-        //     if ( !arrayCheck((x-1),(y+1))) emptyBoxArray[x - 1][y + 1].src = url;
-        //     if ( !arrayCheck((x),(y+1))) emptyBoxArray[x][y + 1].src = url;
-        //     if ( !arrayCheck((x+1),(y+1))) emptyBoxArray[x + 1][y + 1 ].src = url;
-        // }
-        evt.target.src = `images/${count}.png`;
+        if ( count === 0 ) reveal(idx);
+        // if(count === 0 && !arrayCheck(x-2,y-2) && !arrayCheck(x-1,y-2) && !arrayCheck(x,y-2) && !arrayCheck(x+1,y-2) &&
+        //     !arrayCheck(x+2,y-2) && !arrayCheck(x-2,y-1) && !arrayCheck(x+2, y-1 ) && !arrayCheck(x-2, y) && !arrayCheck(x+2, y) &&
+        //     !arrayCheck(x-2,y+1) && !arrayCheck(x+2,y+1) && !arrayCheck(x-2,y+2) && !arrayCheck(x+2,y+2) && !arrayCheck(x-1,y+2)&&
+        //      !arrayCheck(x,y+2)&& !arrayCheck(x+1,+2) ){ reveal(idx); }
+        else {
+            evt.target.src = `images/${count}.png`;
+            scoreBoard.textContent = `${++score}`;
+        }
+       
     }
 }
 var arrayCheck = function (a,b){
@@ -122,17 +129,52 @@ var arrayCheck = function (a,b){
         }else return false;
     }else return false;
 }
-
-// function reveal(a,b){
-    
-//     // var url = 'images/0.png';
-//     // if ( !arrayCheck(a,b)) emptyBoxArray[a][b].src = url;
-//     // if ( !arrayCheck((a-1),(b-1))) emptyBoxArray[a - 1][b - 1].src = url;
-//     // if ( !arrayCheck((a),(b-1))) emptyBoxArray[a][b - 1].src = url;
-//     // if ( !arrayCheck((a+1),(b-1))) emptyBoxArray[a + 1][b - 1].src = url;
-//     // if ( !arrayCheck((a-1),(b))) emptyBoxArray[a - 1][b].src = url;
-//     // if ( !arrayCheck((a+1),(b))) emptyBoxArray[a + 1][b].src = url;
-//     // if ( !arrayCheck((a-1),(b+1))) emptyBoxArray[a - 1][b + 1].src = url;
-//     // if ( !arrayCheck((a),(b+1))) emptyBoxArray[a][b + 1].src = url;
-//     // if ( !arrayCheck((a+1),(b+1))) emptyBoxArray[a + 1][b + 1 ].src = url;
-// }
+$canvas.on('contextmenu', function(evt){
+    evt.preventDefault();
+    if(evt.target.src !== "file:///Users/meisam/Documents/GApractice/02-mineSweeper/images/flag.png"){
+        evt.target.src = mineSweeper.flagImg;
+        flagBoard.textContent = `${--mines}`;
+    }else if(evt.target.src === "file:///Users/meisam/Documents/GApractice/02-mineSweeper/images/flag.png"){
+        evt.target.src = mineSweeper.emptyBox;
+        flagBoard.textContent = `${++mines}`;                               //I have to work on this part
+    }   
+});
+function reveal(idx){
+    revealed = 0;
+    var x = idx%16;
+    var y = Math.floor(idx/16);
+    var a = "file:///Users/meisam/Documents/GApractice/02-mineSweeper/images/emptyBox.png";
+    if(revealArray[idx] !== 'mine' && emptyBoxArray[idx].src === a ){
+        revealed++;
+        emptyBoxArray[idx].src = `${revealArray[idx]}.png`;
+        
+        // if(revealArray[idx] === 0 && !arrayCheck(x-2,y-2) && !arrayCheck(x-1,y-2) && !arrayCheck(x,y-2) && !arrayCheck(x+1,y-2) &&
+        //     !arrayCheck(x+2,y-2) && !arrayCheck(x-2,y-1) && !arrayCheck(x+2, y-1 ) && !arrayCheck(x-2, y) && !arrayCheck(x+2, y) &&
+        //     !arrayCheck(x-2,y+1) && !arrayCheck(x+2,y+1) && !arrayCheck(x-2,y+2) && !arrayCheck(x+2,y+2) && !arrayCheck(x-1,y+2)&&
+        //      !arrayCheck(x,y+2)&& !arrayCheck(x+1,+2)  ){
+        if(revealArray[idx] === 0 ){
+            if( x>0 && emptyBoxArray[idx - 1].src === a ) reveal(idx-1);
+            if( x<15 && emptyBoxArray[idx + 1].src === a ) reveal(+idx+1);
+            if( y<15 && emptyBoxArray[idx + 16].src === a ) reveal(+idx+16);
+            if( y>0 && emptyBoxArray[idx - 16].src === a ) reveal(idx-16);
+            if( x>0 && y>0 && emptyBoxArray[idx - 15].src === a ) reveal(idx-15);
+            if( x<15 && y<15 && emptyBoxArray[idx + 17].src === a ) reveal(+idx+17);
+            if( x>0 && y<15 && y>0 && emptyBoxArray[idx+15].src === a ) reveal(+idx+15);
+            if( x<15 && y>0 && y<15 && emptyBoxArray[idx - 15].src === a ) reveal(+idx-17);
+            var count = 0;
+            if ( arrayCheck((x-1),(y-1))) count++;
+            if ( arrayCheck((x),(y-1))) count++;
+            if ( arrayCheck((x+1),(y-1))) count++;
+            if ( arrayCheck((x-1),(y))) count++;
+            if ( arrayCheck((x+1),(y))) count++;
+            if ( arrayCheck((x-1),(y+1))) count++;
+            if ( arrayCheck((x),(y+1))) count++;
+            if ( arrayCheck((x+1),(y+1))) count++;
+            if ( count === 0 ) reveal(idx);
+            else {
+                evt.target.src = `images/${count}.png`;
+                scoreBoard.textContent = `${++score}`;
+            }
+        }
+    }  
+}
