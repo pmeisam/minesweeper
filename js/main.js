@@ -16,7 +16,8 @@ const minesweeper = {
     mines: 50,
     revealed: 0,
     flags: 0,
-    score: 0
+    score: 0,
+    numbers: 0
 };
 /*----- app's state (variables) -----*/
 var cells, emptyBoxArray, mineArray, emptyBox, mine, current, gameOver, score, reveal, revealed;
@@ -43,10 +44,11 @@ function init(){
     gameOver = false;
     score = 0;
     $startBtn.on('click', function(){
-        $canvas.fadeIn();
-        $(render()).toggle();
-        $startBtn.toggle();
+        $canvas.fadeIn(3000);
+        $(render()).toggle(3000);
+        $startBtn.toggle(3000);
     });
+    revealed = 0;
 }
 function render(){
     console.log("meisam");
@@ -99,13 +101,17 @@ function play(evt) {
         for(var i = 0; i < minesweeper.mines; i++){
             emptyBoxArray[mineArray[i]].src = minesweeper.mineImg;
         }
-        // gameOver = true;
-        // alert("game over!!!");
+        gameOver = true;
+        alert("game over!!!");
     } else if ( gameOver === false ) {
         if( mineFinder(x,y) === 0 ) reveal(x,y);
         else {
             evt.target.src = `images/${mineFinder(x,y)}.png`;
             scoreBoard.textContent = `${++score}`; 
+            minesweeper.numbers++;
+            if(minesweeper.numbers + minesweeper.flags + revealed === emptyBoxArray.length){
+                alert("YOU WON!");
+            }
         } 
     }
 }
@@ -130,16 +136,19 @@ var arrayCheck = function (a,b){
 }
 $canvas.on('contextmenu', function(evt){
     evt.preventDefault();
-    if(evt.target.src !== "file:///Users/meisam/Documents/GApractice/02-mineSweeper/images/flag.png"){
+    if(evt.target.src !== "file:///Users/meisam/Documents/GApractice/02-mineSweeper/images/flag.png" && checkImage(evt.target.id)){
         evt.target.src = minesweeper.flagImg;
+        minesweeper.flags++;
         flagBoard.textContent = `${--mines}`;
     }else if(evt.target.src === "file:///Users/meisam/Documents/GApractice/02-mineSweeper/images/flag.png"){
         evt.target.src = minesweeper.emptyBox;
-        flagBoard.textContent = `${++mines}`;                               //I have to work on this part
+        flagBoard.textContent = `${++mines}`;  
+        minesweeper.flags--;                             //I have to work on this part
     }   
 });
 function checkImage(a) {
     var url = "file:///Users/meisam/Documents/GApractice/02-mineSweeper/images/emptyBox.png";
+    // var url = "images/emptyBox.png";
     if ( a <= 0 ){
         a = 0; 
     }else if ( a >= 255){
@@ -151,74 +160,57 @@ function checkImage(a) {
     else return false;
 }
 function reveal(x,y){
-    revealed = 0;
     var idx = (y*16) + x;
     var rows = minesweeper.rows;
     var columns = minesweeper.columns;
     // debugger
-    var url = "file:///Users/meisam/Documents/GApractice/02-mineSweeper/images/emptyBox.png";
     if( mineFinder(x,y) === 0  && checkImage(idx) ){
-        // && x >= 0 && y >= 0 && x < 16 && y < 16 && idx >= 0){
         revealed++;
         emptyBoxArray[idx].src = 'images/0.jpg';
-        // if(mineFinder(x-1, y) === 0 && x > 0 ) reveal(x-1 ,y);
-        // else if( (mineFinder(x-1,y) === 1 || mineFinder(x-1,y) === 2 || mineFinder(x-1,y) === 3 
-        //     || mineFinder(x-1,y) === 4 )) {
-        //     emptyBoxArray[idx-1].src = `images/${mineFinder(x-1,y)}.png`;
-        // }
-        // if(mineFinder(x+1,y) === 0  && x < rows -1 && x >= 0/*&& x < 15 && x >= 0 && y <= 15 && y >= 0 */) reveal(x+1, y);
-        // else if( mineFinder(x+1,y) === 1 || mineFinder(x+1,y) === 2 || mineFinder(x+1,y) === 3 ||
-        //      mineFinder(x+1,y) === 4 ){
-        // emptyBoxArray[idx+1].src = `images/${mineFinder(x+1,y)}.png`;
-        // } 
-        if(mineFinder(x+1,y+1) === 0 && x < rows-1 && checkImage( idx + columns + 1 )) reveal(x+1, y+1); 
+        if(mineFinder(x-1, y) === 0 && x > 0 && x < 16 ) reveal(x-1 ,y);                                      //revealing to the left
+        else if( (mineFinder(x-1,y) === 1 || mineFinder(x-1,y) === 2 || mineFinder(x-1,y) === 3 
+            || mineFinder(x-1,y) === 4 )) {
+            emptyBoxArray[idx-1].src = `images/${mineFinder(x-1,y)}.png`;
+            minesweeper.numbers++;
+        }
+        if(mineFinder(x+1,y) === 0  && x < rows -1 && x >= 0) reveal(x+1, y);                       //reealing to the right
+        else if( mineFinder(x+1,y) === 1 || mineFinder(x+1,y) === 2 || mineFinder(x+1,y) === 3 ||
+             mineFinder(x+1,y) === 4 ){
+            emptyBoxArray[idx+1].src = `images/${mineFinder(x+1,y)}.png`;
+            minesweeper.numbers++;
+        } 
+        if(mineFinder(x+1,y+1) === 0 && x < rows-1 && checkImage( idx + columns + 1 ) && y < 15) reveal(x+1, y+1);      //revealing to the bottom right
         else if( mineFinder(x+1,y+1) === 1 || mineFinder(x+1,y+1) === 2 || mineFinder(x+1,y+1) === 3 
             || mineFinder(x+1,y+1) === 4 ) {
-        emptyBoxArray[idx+columns+1].src = `images/${mineFinder(x+1,y+1)}.png`;
+            emptyBoxArray[idx+columns+1].src = `images/${mineFinder(x+1,y+1)}.png`;
+            minesweeper.numbers++;
         } 
-        if(mineFinder(x+1,y-1) === 0 &&  checkImage(idx-columns-1) && x < rows-1/* && x < 15 && y >= 0 && y <= 15 && x >= 0*/) reveal(x+1,y-1);
+        if(mineFinder(x+1,y-1) === 0 &&  checkImage(idx-columns+1)  && y > 0 && x < rows-1) reveal(x+1,y-1);   //revealing to the up right
         else if( mineFinder(x+1,y-1) === 1 || mineFinder(x+1,y-1) === 2 || mineFinder(x+1,y-1) === 3 
-                || mineFinder(x+1,y-1) === 4  &&  checkImage(idx-columns-1)){
-            emptyBoxArray[idx-columns-1].src = `images/${mineFinder(x+1,y-1)}.png`; 
+                || mineFinder(x+1,y-1) === 4){
+            emptyBoxArray[idx-columns+1].src = `images/${mineFinder(x+1,y-1)}.png`; 
+            minesweeper.numbers++;
         } 
-        if(mineFinder(x-1,y+1) === 0 &&  checkImage(idx+columns-1).src === url && x > 0/*&& x >= 0 && y < 16 && x <15 */) reveal(x-1,y+1);
+        if(mineFinder(x-1,y+1) === 0 &&  checkImage(idx+columns-1) && x > 0 && y < columns-1) reveal(x-1,y+1);                   //revealing to the bottom left
         else if( mineFinder(x-1,y+1) === 1 || mineFinder(x-1,y+1) === 2 || mineFinder(x-1,y+1) === 3 
                 || mineFinder(x-1,y+1) === 4 || mineFinder(x-1,y+1) === 5 &&  checkImage(idx+columns+1)){
             emptyBoxArray[idx+columns-1].src = `images/${mineFinder(x-1,y+1)}.png`;
+            minesweeper.numbers++;
         } 
-        if(mineFinder(x-1,y-1) === 0 &&  checkImage(idx-columns+1) && x > 0 && y > 0/* && x >= 1 && y > 1 && y <= 16 && x <= 16*/) reveal(x-1,y-1);
+        if(mineFinder(x-1,y-1) === 0 &&  checkImage(idx-columns+1) && x > 0 && y > 0 ) reveal(x-1,y-1);         //revealing to the up left
         else if( mineFinder(x-1,y-1) === 1 || mineFinder(x-1,y-1) === 2 || mineFinder(x-1,y-1) === 3 
                 || mineFinder(x-1,y-1) === 4 || mineFinder(x-1,y-1) === 5 &&  checkImage(idx-columns+1)){
-            emptyBoxArray[idx-columns+1].src = `images/${mineFinder(x-1,y-1)}.png`;
+            emptyBoxArray[idx-columns-1].src = `images/${mineFinder(x-1,y-1)}.png`;
+            minesweeper.numbers++;
         } 
-        if(mineFinder(x,y+1) === 0 &&  checkImage(idx+columns) && x < columns-1 /*&& y <= 16 &&  y >= 1 */) reveal(x,y+1);
-        else if( (mineFinder(x,y+1) === 1 || mineFinder(x,y+1) === 2 || mineFinder(x,y+1) === 3 
-                || mineFinder(x,y+1) === 4 || mineFinder(x,y+1) === 5) &&  checkImage(idx+columns)){
-            emptyBoxArray[idx+columns].src = `images/${mineFinder(x,y+1)}.png`;
-        } 
-        if(mineFinder(x,y-1) === 0 && checkImage(idx-columns) && x >= 0  ) reveal(x,y-1);
+        if(mineFinder(x,y-1) === 0 && checkImage(idx-columns) && x >= 0 && y > 0  ) reveal(x,y-1);              //revealing toward up
         else if(( mineFinder(x,y-1) === 1 || mineFinder(x,y-1) === 2 || mineFinder(x,y-1) === 3 
                 || mineFinder(x,y-1) === 4 || mineFinder(x,y-1) === 5 )&&  checkImage(idx-columns) ){
             emptyBoxArray[idx-columns].src = `images/${mineFinder(x,y-1)}.png`;
+            minesweeper.numbers++;
         } 
-    
-    
+    }
 }
-    
-    
-    // if(x === 15) return;
-    
-    
-
-}
-
-
-
-
-// if there is no mine around a box i want the box to be changed to the 0.png and check all the boxes around it 
-//when checking the x and y next to it check if there is no bomb around them either
-//if there is show me how many bombs if there isn't go to the next box again
-
 
 //run test
 //unit testing
