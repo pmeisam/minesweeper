@@ -19,8 +19,11 @@ const minesweeper = {
     score: 0,
     numbers: 0
 };
+<<<<<<< HEAD
 var timer;
 const sound = new Audio('sounds/explosion.mp3');
+=======
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
 
 /*----- app's state (variables) -----*/
 var cells, emptyBoxArray, mineArray, gameOver, score, revealed;
@@ -121,7 +124,10 @@ function play(evt) {
         $(".winboard").css('display', 'flex');
         $('.resetgame').css('display', 'block');
         $('main').css('display', 'fixed');
+<<<<<<< HEAD
         document.querySelector('.faceImg').src = "images/dead.png"
+=======
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
     } else if (gameOver === false) {
         if (mineFinder(x, y) === 0) reveal(x, y);
         else {
@@ -159,7 +165,11 @@ $canvas.on('contextmenu', function (evt) {
         evt.target.src = minesweeper.flagImg;
         minesweeper.flags++;
         flagBoard.textContent = `${--mines}`;
+<<<<<<< HEAD
         if (mines <= 0) {
+=======
+        if (minesweeper.flags === 50) {
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
             $(".winboard p").html("You Unfortunately Won :(");
             $(".winboard").css("backgroundColor", "rgba(97,207,78,0.7)");
             $(".winboard").css('display', 'flex');
@@ -190,13 +200,18 @@ function reveal(x, y) {
         scoreBoard.textContent = `${score++}`;
         emptyBoxArray[idx].src = 'images/0.jpg';
         
+<<<<<<< HEAD
         if (mineFinder(x - 1, y) === 0 && checkImage(idx - 1)  && x > 0 && x < rows ) reveal(x - 1, y);                                      //revealing to the left
+=======
+        if (mineFinder(x - 1, y) === 0 && checkImage(idx - 1)  && x >= 0 && x < rows ) reveal(x - 1, y);                                      //revealing to the left
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
         else if ((mineFinder(x - 1, y) === 1 || mineFinder(x - 1, y) === 2 || mineFinder(x - 1, y) === 3
             || mineFinder(x - 1, y) === 4)) {
             emptyBoxArray[idx - 1].src = `images/${mineFinder(x - 1, y)}.png`;
             minesweeper.numbers++;
             scoreBoard.textContent = `${score++}`;
         }
+<<<<<<< HEAD
         if (mineFinder(x, y - 1) === 0 && checkImage(idx - columns) && y >= 0  ) reveal(x, y - 1);              //revealing toward up
         else if ((mineFinder(x, y - 1) === 1 || mineFinder(x, y - 1) === 2 || mineFinder(x, y - 1) === 3
             || mineFinder(x, y - 1) === 4 || mineFinder(x, y - 1) === 5) /*&& checkImage(idx - columns)*/) {
@@ -205,20 +220,38 @@ function reveal(x, y) {
                 scoreBoard.textContent = `${score++}`;
             }
         if (mineFinder(x + 1, y) === 0 && x < rows - 1 && x < rows && x >= 0) reveal(x + 1, y);                       //revealing to the right
+=======
+        if (mineFinder(x + 1, y) === 0 && x < rows - 1 && x > 0) reveal(x + 1, y);                       //revealing to the right
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
         else if (mineFinder(x + 1, y) === 1 || mineFinder(x + 1, y) === 2 || mineFinder(x + 1, y) === 3 ||
         mineFinder(x + 1, y) === 4) {
             emptyBoxArray[idx + 1].src = `images/${mineFinder(x + 1, y)}.png`;
             minesweeper.numbers++;
             scoreBoard.textContent = `${score++}`;
         }
+<<<<<<< HEAD
         if (mineFinder(x, y + 1) === 0 && checkImage(idx + columns) && y < rows-1 && y>= 0) reveal(x, y + 1);              //revealing toward down
+=======
+        if (mineFinder(x, y - 1) === 0 && checkImage(idx - columns) && y >= 0 && y <= columns) reveal(x, y - 1);              //revealing toward up
+        else if ((mineFinder(x, y - 1) === 1 || mineFinder(x, y - 1) === 2 || mineFinder(x, y - 1) === 3
+            || mineFinder(x, y - 1) === 4 || mineFinder(x, y - 1) === 5) /*&& checkImage(idx - columns)*/) {
+                emptyBoxArray[idx - columns].src = `images/${mineFinder(x, y - 1)}.png`;
+                minesweeper.numbers++;
+                scoreBoard.textContent = `${score++}`;
+            }
+        if (mineFinder(x, y + 1) === 0 && checkImage(idx + columns) && y < rows-1 ) reveal(x, y + 1);              //revealing toward down
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
         else if ((mineFinder(x, y + 1) === 1 || mineFinder(x, y + 1) === 2 || mineFinder(x, y + 1) === 3
             || mineFinder(x, y + 1) === 4 ) /*&& checkImage(idx + columns)*/) {
             emptyBoxArray[idx + columns].src = `images/${mineFinder(x, y + 1)}.png`;
             minesweeper.numbers++;
             scoreBoard.textContent = `${score++}`;
         }
+<<<<<<< HEAD
         if (mineFinder(x + 1, y + 1) === 0 && x < rows - 1 && checkImage(idx + columns + 1) && y < columns - 2 && x < rows - 2) reveal(x + 1, y + 1);      //revealing to the bottom right
+=======
+        if (mineFinder(x + 1, y + 1) === 0 && x < rows - 1 && checkImage(idx + columns + 1) && y < 15 && y >= 0) reveal(x + 1, y + 1);      //revealing to the bottom right
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
         else if (mineFinder(x + 1, y + 1) === 1 || mineFinder(x + 1, y + 1) === 2 || mineFinder(x + 1, y + 1) === 3
             || mineFinder(x + 1, y + 1) === 4) {
             emptyBoxArray[idx + columns + 1].src = `images/${mineFinder(x + 1, y + 1)}.png`;
@@ -227,21 +260,36 @@ function reveal(x, y) {
         }
         if (mineFinder(x - 1, y + 1) === 0 && checkImage(idx + columns - 1) && x > 0 && y < columns - 1) reveal(x - 1, y + 1);                   //revealing to the bottom left
         else if (mineFinder(x - 1, y + 1) === 1 || mineFinder(x - 1, y + 1) === 2 || mineFinder(x - 1, y + 1) === 3
+<<<<<<< HEAD
             || mineFinder(x - 1, y + 1) === 4 || mineFinder(x - 1, y + 1) === 5  && x >= 0 && y >= 0 && y < columns && x < rows/*&& checkImage(idx + columns + 1)*/) {
+=======
+            || mineFinder(x - 1, y + 1) === 4 || mineFinder(x - 1, y + 1) === 5 /*&& checkImage(idx + columns + 1)*/) {
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
             emptyBoxArray[idx + columns - 1].src = `images/${mineFinder(x - 1, y + 1)}.png`;
             minesweeper.numbers++;
             scoreBoard.textContent = `${score++}`;
         }
+<<<<<<< HEAD
         if (mineFinder(x + 1, y - 1) === 0 && checkImage(idx - columns + 1)  && x < rows - 2  ) reveal(x + 1, y - 1);   //revealing to the up right
+=======
+        if (mineFinder(x + 1, y - 1) === 0 && checkImage(idx - columns + 1) && y > 0 && x < rows - 1 && y < rows -1) reveal(x + 1, y - 1);   //revealing to the up right
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
         else if (mineFinder(x + 1, y - 1) === 1 || mineFinder(x + 1, y - 1) === 2 || mineFinder(x + 1, y - 1) === 3
             || mineFinder(x + 1, y - 1) === 4) {
             emptyBoxArray[idx - columns + 1].src = `images/${mineFinder(x + 1, y - 1)}.png`;
             minesweeper.numbers++;
             scoreBoard.textContent = `${score++}`;
+<<<<<<< HEAD
        }
         if (mineFinder(x - 1, y - 1) === 0 && checkImage(idx - columns - 1) && x > 0 && y > 0 && y < columns) reveal(x - 1, y - 1);         //revealing to the up left
         else if (mineFinder(x - 1, y - 1) === 1 || mineFinder(x - 1, y - 1) === 2 || mineFinder(x - 1, y - 1) === 3
             || mineFinder(x - 1, y - 1) === 4 || mineFinder(x - 1, y - 1) === 5 && x >= 0 && y >= 0 && y < columns && x < rows) {
+=======
+        }
+        if (mineFinder(x - 1, y - 1) === 0 && checkImage(idx - columns - 1) && x > 0 && y > 0) reveal(x - 1, y - 1);         //revealing to the up left
+        else if (mineFinder(x - 1, y - 1) === 1 || mineFinder(x - 1, y - 1) === 2 || mineFinder(x - 1, y - 1) === 3
+            || mineFinder(x - 1, y - 1) === 4 || mineFinder(x - 1, y - 1) === 5/* && checkImage(idx - columns - 1)*/) {
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
             emptyBoxArray[idx - columns - 1].src = `images/${mineFinder(x - 1, y - 1)}.png`;
             minesweeper.numbers++;
             scoreBoard.textContent = `${score++}`;

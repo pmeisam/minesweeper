@@ -271,7 +271,11 @@ img {
     }
     .winboard{
         width: 600px;
+<<<<<<< HEAD
         height: 400px;
+=======
+        height: 300px;
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
         /* background-color: rgba(24, 226, 17, 0.5); */
         color: white;
         font-size: 70px;
@@ -300,7 +304,10 @@ img {
         width: 250px;
     }
 
+<<<<<<< HEAD
 }
 h1{
     font-size: 80px;
+=======
+>>>>>>> d3d669df0edba1d75db10a01e4ea21b3dce6a4b7
 }
