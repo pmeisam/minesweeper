@@ -10,6 +10,7 @@ body{
     display: flex;
     justify-content: center;
     flex-flow: column wrap;
+    align-items: center;
 }
 header {
     background-color: transparent;
@@ -27,6 +28,7 @@ a {
     color: rgb(84, 255, 17);
     /* color: white; */
     text-decoration: none;
+    margin: 0 30px;
 }
 nav {
     display: flex;
@@ -40,16 +42,17 @@ nav {
 }
 .start{
     display: block;
-    margin-top: 60px;
-    color: rgb(26, 90, 9);
+    margin-top: 224px;
+    color: rgb(26, 190, 90);
     background-color: rgba(187,187,187, 0.6);
     border: none;
     text-align: center;
-    width: 300px;
+    width: 390px;
     font-size: 30px;
     font-weight: 900;
     font-family: 'Orbitron', sans-serif;
     padding: 20px;
+    border-radius: 385px;
 }
 main {
     width: 310px;
@@ -119,6 +122,36 @@ img {
     width: 19px;
     height: 19px;
 }
+.winboard{
+    width: 360px;
+    height: 140px;
+    background-color: rgba(255, 17, 69, 0.5);
+    color: white;
+    font-size: 30px;
+    font-weight: 900;
+    text-align: center;
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    display: none;
+    border-radius: 5px;
+    margin-top: -350px;
+
+}
+.resetgame{
+    border: none;
+    background-color: white;
+    color: red;
+    border-radius: 30px;
+    padding: 14px;
+    font-size: 16px;
+    display: block;
+    margin-top: -29px;
+    font-weight: 800;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 160px;
+}
 @media only screen and (min-width: 768px ){
     body {
         background-size: inherit;
@@ -128,8 +161,10 @@ img {
         height: 30px;
     }
     header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background-color: transparent;
-        
         font-size: 20px;
         font-weight: 700;
         height: 60px;
@@ -143,6 +178,7 @@ img {
         color: rgb(84, 255, 17);
         /* color: white; */
         text-decoration: none;
+        margin: 0 50px;
     }
     nav {
         display: flex;
@@ -156,16 +192,16 @@ img {
     }
     .start{
         display: block;
-        margin-top: 60px;
-        color: rgb(26, 90, 9);
+        margin-top: 260px;
+        color: rgb(15, 255, 107);
         background-color: rgba(187,187,187, 0.6);
         border: none;
         text-align: center;
-        width: 300px;
-        font-size: 30px;
+        width: 630px;
+        font-size: 35px;
         font-weight: 900;
         font-family: 'Orbitron', sans-serif;
-        padding: 20px;
+        padding: 40px;
     }
     main {
         width: 510px;
@@ -232,4 +268,35 @@ img {
         font-size: 40px;
         font-weight: 900;
     }
+    .winboard{
+        width: 600px;
+        height: 300px;
+        /* background-color: rgba(24, 226, 17, 0.5); */
+        color: white;
+        font-size: 70px;
+        font-weight: 900;
+        text-align: center;
+        /* display: flex; */
+        align-items: center;
+        justify-content: center;
+        display: none;
+        border-radius: 30px;
+        margin-top: -510px;
+        flex-direction: column;
+
+    }
+    .resetgame{
+        border: none;
+        background-color: white;
+        color: red;
+        border-radius: 30px;
+        padding: 20px;
+        font-size: 20px;
+        display: block;
+        margin-top: -70px;
+        font-weight: 800;
+        font-family: Arial, Helvetica, sans-serif;
+        width: 250px;
+    }
+
 }
