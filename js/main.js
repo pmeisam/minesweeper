@@ -91,23 +91,35 @@ function render() {
     }
     
 }
-
 var startBtn = $startBtn.on('click', function () {
     minesweeper.mines = parseInt($(".minesnum").val());
     minesweeper.rows = parseInt($(".rownum").val());
     minesweeper.columns = parseInt($(".rownum").val());
+    if(parseInt($(".rownum").val()) >= 100) 
+    {
+        minesweeper.columns = 100;
+        minesweeper.rows = 10;
+    }
+    if(parseInt($(".rownum").val()) <= 10) {
+        minesweeper.columns = 10;
+        minesweeper.rows = 10;
+    }
+
+    if($(".rownum").val().length === 0 ){
+        minesweeper.columns = 16;
+        minesweeper.rows = 16;
+    }
+    if(minesweeper.mines >= 1000) minesweeper.mines = 1000;
+    if($(".minesnum").val().length === 0) minesweeper.mines = 50;
+
     width = (minesweeper.columns * 30) + 5;
-    // if ( minesweeper.columns > 35){
-    //     width = (minesweeper.columns * 25) + 5;
-    //     $('img').css("width","25px");
-    // }
+    
     mobWidth = (minesweeper.columns * 19) + 5;
-    // $("main").css('width', `${mobWidth}px`);
     var x = window.matchMedia("(min-width: 768px)")
-    myFunction(x) // Call listener function at run time
+    myFunction(x);
     x.addListener(myFunction) 
     function myFunction(x) {
-        if (x.matches) { // If media query matches
+        if (x.matches) {;
             $('main').css('width', `${width}`);
         } else {
             $('main').css('width', `${mobWidth}`);
@@ -304,7 +316,3 @@ function timer(){
 //jasmine
 //debugger
 //console.log
-
-
-
-//the bottom part is givin me trouble

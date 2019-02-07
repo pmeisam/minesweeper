@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MINESWEEPER</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <style type="text/css"></style>
     <link href="https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
@@ -24,10 +25,14 @@
             <a href="http://www.meisam.org/">Portfolio</a> -->
         </nav>
     </header>
+    
+
     <div class="inputs">
-        <input class="minesnum" type="text" placeholder="Number of Mines">
-        <input class="rownum"type="text" placeholder="Number of Rows & Columns">
-        <!-- <input class="colnum"type="text" placeholder="Number of Columns"> -->
+        <p>Default: 16x16, 50 mines</p>
+        <p>Maximun no. of columns and rows: 100</p>
+        <p>Maximum no. of mines: 1000</p>
+        <input class="minesnum" type="number" placeholder="Number of Mines">
+        <input class="rownum" type="number" placeholder="Number of Rows & Columns">
     </div>
     
     <button class="start">Welcome to Minesweeper<br>Click To Start</button>

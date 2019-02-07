@@ -5,7 +5,7 @@ body{
     margin: 0;
     font-family: 'Orbitron', sans-serif;
     background-image: url('../images/background.png');
-    background-repeat: repeat-y;
+    background-repeat: repeat;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -40,13 +40,13 @@ nav {
 }
 .start{
     display: block;
-    margin-top: 224px;
-    color: rgb(26, 190, 90);
-    background-color: rgba(187,187,187, 0.6);
+    margin-top: 65px;
+    color: rgb(172, 147, 8);
+    background-color: rgba(70,23,0,0.5);
     border: none;
     text-align: center;
-    width: 355px;
-    font-size: 30px;
+    width: 315px;
+    font-size: 25px;
     font-weight: 900;
     font-family: 'Orbitron', sans-serif;
     padding: 20px;
@@ -148,7 +148,7 @@ header img{
     width: 60px;
 }
 h1{
-    font-size: 40px;
+    font-size: 35px;
     font-family: 'ZCOOL KuaiLe', cursive;
 }
 .timer{
@@ -213,7 +213,7 @@ input {
     }
     .start{
         display: block;
-        margin-top: 260px;
+        margin-top: 50px;
         color: rgb(172, 147, 8);
         background-color: rgba(70,23,0,0.5);
         border: none;
@@ -267,14 +267,11 @@ input {
     table {
         display: flex;
         justify-content: space-around;
-        margin-bottom: 20px;
-        /* border: solid rgb(176,121,87) 10px; */
+        margin-bottom: 20px;/
     }
     .canvas {
         text-align: center;
         margin: 0;
-        /* border: solid rgb(176,121,87) 15px; */
-        /* width: 480px; */
         display: flex;
         flex-flow: row wrap;
         justify-content: center;
@@ -291,12 +288,10 @@ input {
     .winboard{
         width: 600px;
         height: 400px;
-        /* background-color: rgba(24, 226, 17, 0.5); */
         color: white;
         font-size: 50px;
         font-weight: 900;
         text-align: center;
-        /* display: flex; */
         align-items: center;
         justify-content: center;
         display: none;
@@ -326,8 +321,7 @@ input {
         display: flex;
         flex-direction: column;
         font-size: 20px;
-
-        justify-content: left;
+        justify-content: center;
         margin-top: 50px;
     }
     input{
@@ -336,7 +330,6 @@ input {
         height: 30px;
         border: solid rgb(172, 147, 8) 2px;
         border-radius: 10px; 
-        
     }
     .timer{
         margin: 20px 400px;
