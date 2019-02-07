@@ -1,18 +1,26 @@
 #Minesweeper Game#
-![alt text](/Users/meisam/Documents/Screen Shot 2019-02-03 at 9.13.24 PM.png)
-![alt text](/Users/meisam/Documents/Screen Shot 2019-02-05 at 8.34.14 PM (2).png)
-![alt text](/Users/meisam/Documents/Screen Shot 2019-02-05 at 8.37.27 PM.png)
-
+![Imgur](https://i.imgur.com/s9LDjBo.png)
+![Imgur](https://i.imgur.com/sBrp5O7.png)
+![Imgur](https://i.imgur.com/4ntjxDe.png)
 ##Technologies Used##
 I used Vanilla JavaScript, HTML, CSS, and jQuery.
 
 ##Getting Started##
 [Lets go to the game](http://www.meisam.org/projects/)
-The game is about to find the mines. Each box you swap there will either be a number of mines around each box or either a mine. If there is no number it means that there is no mine around it.
-You can put a flag anywhere you think there is a mine. If you swap all the boxes without swaping the any mine you will win.
+The game is about finding the hidden mines. Each box you click on will either show a number of mines around each box or a mine. If there is no number it means that there is no mine around it.
+You can put a flag by right-clicking anywhere you think there is a mine. If you click all the boxes without clicking a mine, you will win.
  
+
+In the below section of code, I used recursion to expand the boxes if there is no mine. 
+![Imgur](https://i.imgur.com/7XPIEQn.png)
+
+In the below section of code I used jQuery to animate the start button and get the values of the numbers of mines and columns. I had to change the width of my boxes for different screen sizes using jQuery, so if the user inputs a larger number of columns, it will automatically change the size of the board.
+![Imgur](https://i.imgur.com/3LmCsuw.png)
+
 ##Unsolved Problems##
-The only unsolved problem is that I need to work more on the expanding the boxes if there is no mine it expands without any errors. My plan for the future is to add the ability to choose between beginner, intermediate, and advanced and have an option for the user to choose the number of columns, rows and mines.
+My plan for the future is to add the ability to choose between beginner, intermediate.
+
+
 
 
 
