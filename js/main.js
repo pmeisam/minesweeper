@@ -180,7 +180,7 @@ var arrayCheck = function (a, b) {
 $(function(){
     $( "main" ).bind( "taphold", tapholdHandler );
     function tapholdHandler( evt ){
-      $( event.target ).preventDefault();
+      $( evt.target ).preventDefault();
       if (!emptyBoxArray[evt.target.id].src.includes('images/flag.png')  && checkImage(evt.target.id)) {
         evt.target.src = minesweeper.flagImg;
         minesweeper.flags++;
