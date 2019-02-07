@@ -1,4 +1,4 @@
-#Minesweeper Game
+<h1>Mineseeper Game</h1>
 ![Imgur](https://i.imgur.com/s9LDjBo.png)
 ![Imgur](https://i.imgur.com/sBrp5O7.png)
 ![Imgur](https://i.imgur.com/4ntjxDe.png)
