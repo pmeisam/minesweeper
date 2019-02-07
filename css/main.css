@@ -5,7 +5,7 @@ body{
     margin: 0;
     font-family: 'Orbitron', sans-serif;
     background-image: url('../images/background.png');
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -57,7 +57,7 @@ nav {
 main {
     width: 310px;
     margin: 130px auto;
-    border: solid rgb(184, 197, 195) 30px;
+    border: solid rgb(70, 23, 0) 30px;
     /* padding: 20px; */
     background-color: rgba(176, 176, 176, 0.7);;
     text-align: center;
@@ -70,7 +70,7 @@ main {
     width: 70px;
     height: 35px;
     background-color:rgba(0, 0, 0, 0.7);
-    color: rgb(24, 226, 17);
+    color: rgb(172, 147, 8);
     /* margin: 0 10px; */
     border-radius: 5px;
     font-family: 'Orbitron', sans-serif; 
@@ -82,7 +82,7 @@ main {
     width: 70px;
     height: 35px;
     background-color:rgba(0, 0, 0, 0.7);
-    color: rgb(24, 226, 17);
+    color: rgb(172, 147, 8);
     /* margin: 0 10px; */
     border-radius: 5px;
     font-family: 'Orbitron', sans-serif; 
@@ -98,13 +98,13 @@ table {
     display: flex;
     justify-content: space-around;
     margin-bottom: 10px;
-    border: solid darkgray 10px;
+    /* border: solid rgb(176,121,87) 10px; */
 }
 .canvas {
     text-align: center;
     margin: 0;
     /* border: solid darkgray 20px; */
-    width: 310px;
+    /* width: 310px; */
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
@@ -159,7 +159,11 @@ header img{
 }
 h1{
     font-size: 40px;
+    font-family: 'ZCOOL KuaiLe', cursive;
 }
+
+
+
 @media only screen and (min-width: 768px ){
     body {
         background-size: inherit;
@@ -201,13 +205,13 @@ h1{
     height: 120px;
     }
     .start:hover {
-        border: solid rgb(24, 226, 17) 4px;
+        border: solid rgb(172, 147, 8) 4px;
     }
     .start{
         display: block;
         margin-top: 260px;
-        color: rgb(15, 255, 107);
-        background-color: rgba(187,187,187, 0.6);
+        color: rgb(172, 147, 8);
+        background-color: rgba(70,23,0,0.5);
         border: none;
         text-align: center;
         width: 630px;
@@ -219,35 +223,34 @@ h1{
     main {
         width: 510px;
         margin: 30px auto;
-        border: solid rgb(184, 197, 195) 24px;
-        /* padding: 20px; */
+        border: solid rgb(70,23,0) 24px;
+        display: flex;
         background-color: rgba(176, 176, 176, 0.7);;
         text-align: center;
         display: none;                    
         align-items: center;
         justify-content: center;
         flex-flow: row wrap;
+        /* height: 900px; */
     }
     .flagboard {
         width: 70px;
         height: 70px;
-        background-color:rgba(0, 0, 0, 0.7);
-        color: rgb(24, 226, 17);
+        background-color:rgb(0, 0, 0);
+        color: rgb(172, 147, 8);
         margin: 0 10px;
-        border-radius: 10px;
+        border-radius: 5px;
         font-family: 'Orbitron', sans-serif; 
         font-weight: bolder;
         font-size: 30px;
-        /* font-family: 'digital-7'; */
-    
     }
     .scoreboard {
         width: 70px;
         height: 70px;
-        background-color:rgba(0, 0, 0, 0.7);
-        color: rgb(24, 226, 17);
+        background-color:rgb(0, 0, 0);
+        color: rgb(172, 147, 8);
         margin: 0 10px;
-        border-radius: 10px;
+        border-radius: 5px;
         font-family: 'Orbitron', sans-serif; 
         font-weight: bolder;
         font-size: 30px;
@@ -255,19 +258,19 @@ h1{
     .faceImg {
         width: 50px;
         height: 50px;
-        margin: 0 70px;
+        margin: 0 40px;
     }
     table {
         display: flex;
         justify-content: space-around;
-        margin-bottom: 0;
-        border: solid darkgray 10px;
+        margin-bottom: 20px;
+        /* border: solid rgb(176,121,87) 10px; */
     }
     .canvas {
         text-align: center;
         margin: 0;
-        border: solid darkgray 15px;
-        width: 480px;
+        /* border: solid rgb(176,121,87) 15px; */
+        /* width: 480px; */
         display: flex;
         flex-flow: row wrap;
         justify-content: center;
@@ -300,8 +303,8 @@ h1{
     }
     .resetgame{
         border: none;
-        background-color: white;
-        color: red;
+        background-color:rgba(70,23,0,0.8);
+        color: rgb(172, 147, 8);
         border-radius: 30px;
         padding: 20px;
         font-size: 20px;
@@ -313,6 +316,25 @@ h1{
     }
     h1{
         font-size: 90px;
+        /* font-weight: 700; */
+    }
+    .inputs{
+        display: flex;
+        flex-direction: row;
+        font-size: 20px;
+        justify-content: left;
+        margin-top: 50px;
+    }
+    input{
+        margin: 10px;
+        width: 150px;
+        height: 30px;
+        border: solid rgb(172, 147, 8) 5px;
+        
+    }
+    .timer{
+        
+        margin: 20px 400px;
     }
 
 }

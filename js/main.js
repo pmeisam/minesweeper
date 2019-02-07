@@ -18,10 +18,9 @@ const minesweeper = {
     flags: 0,
     numbers: 0
 };
-
 const sound = new Audio('sounds/explosion.mp3');
-
-
+/*----- variables -----*/
+var width;
 /*----- cached element references -----*/
 const canvas = document.querySelector('.canvas');
 const main = document.querySelector('main');
@@ -47,20 +46,15 @@ function init() {
     mines = 0;
     gameOver = false;
     score = 1;
-    $startBtn.on('click', function () {
-        $canvas.fadeIn(3000);
-        $(render()).toggle(3000);
-        $startBtn.toggle(3000);
-    });
     revealed = 0;
-    timer = Date.now();
+    width = 0;
 }
 
 function render() {
     var count = 0;
-    for (var j = 0; j < minesweeper.columns; j++) {
+    for (var j = 0; j < minesweeper.rows; j++) {
         cells.x = 0;
-        for (var i = 0; i < minesweeper.rows - 1; i++) {
+        for (var i = 0; i < minesweeper.columns - 1; i++) {
             emptyBoxArray[count] = document.createElement('img');
             emptyBoxArray[count].src = minesweeper.emptyBox;
             emptyBoxArray[count].setAttribute("datax", cells.x);
@@ -92,10 +86,29 @@ function render() {
         else
             revealArray[i] = 0
     }
+    
 }
 
+var startBtn = $startBtn.on('click', function () {
+    minesweeper.mines = parseInt($(".minesnum").val());
+    minesweeper.rows = parseInt($(".rownum").val());
+    minesweeper.columns = parseInt($(".rownum").val());
+    width = (minesweeper.columns * 30) + 5;
+    // if ( minesweeper.columns > 35){
+    //     width = (minesweeper.columns * 25) + 5;
+    //     $('img').css("width","25px");
+    // }
+    $("main").css('width', `${width}px`);
+    $canvas.fadeIn(3000);
+    $canvas.css('display','flex');
+    $(render()).toggle(3000);
+    $startBtn.toggle(3000);
+    $('.inputs').fadeOut(2000);
+    timer();
+});
+
 $('.resetgame').on('click', function(){
-                                                                    //reset function
+    window.location.href = "http://www.meisam.org/minesweeper/index.html";
 });
 
 function play(evt) {
@@ -127,6 +140,8 @@ function play(evt) {
             minesweeper.numbers++;
         }
     }
+    
+    
 }
 
 function mineFinder(a, b) {
@@ -157,11 +172,14 @@ $canvas.on('contextmenu', function (evt) {
         minesweeper.flags++;
         flagBoard.textContent = `${--mines}`;
         if (mines <= 0) {
-            $(".winboard p").html("You Unfortunately Won :(");
+            // $('.winboard p').css('fontSize',"40px");
+            $(".winboard p").html(`You Unfortunately Won :(`);
             $(".winboard").css("backgroundColor", "rgba(97,207,78,0.7)");
             $(".winboard").css('display', 'flex');
             $('.resetgame').css('display', 'block');
+            // $('.resetgame').css('margin-top', '-30px');
             $('main').css('display', 'fixed');
+            document.querySelector('.faceImg').src = "images/sunglasses.jpg"
         }
     } else if (emptyBoxArray[evt.target.id].src.includes('images/flag.png') ) {
         evt.target.src = minesweeper.emptyBox;
@@ -172,13 +190,13 @@ $canvas.on('contextmenu', function (evt) {
 
 function checkImage(a) {
     if (a <= 0) a = 0;
-    else if (a >= 255) a = 255;
+    else if (a >= minesweeper.columns*minesweeper.rows) a = minesweeper.columns*minesweeper.rows;
     if (emptyBoxArray[a].src.includes('images/emptyBox.png')) return true;
     else return false;
 }
 
 function reveal(x, y) {
-    var idx = (y * 16) + x;
+    var idx = (y * minesweeper.columns) + x;
     var rows = minesweeper.rows;
     var columns = minesweeper.columns;
     // debugger
@@ -187,7 +205,7 @@ function reveal(x, y) {
         emptyBoxArray[idx].src = 'images/0.jpg';
         scoreBoard.textContent = `${score++}`;
         if(mineFinder(x-1,y)===0 && x>0) reveal(x-1,y);
-        else if(mineFinder(x-1,y)===1 || mineFinder(x-1,y)===2 || mineFinder(x-1,y)===3){
+        else if(mineFinder(x-1,y) !== 0 && x>0){
             emptyBoxArray[idx-1].src = `images/${mineFinder(x-1,y)}.png`;
             scoreBoard.textContent = `${score++}`;
         }
@@ -225,95 +243,24 @@ function reveal(x, y) {
         else if(mineFinder(x+1,y+1) !== 0 && x < columns-1 && y < columns-1) {
             emptyBoxArray[idx+columns+1].src = `images/${mineFinder(x+1,y+1)}.png`;
             scoreBoard.textContent = `${score++}`;
-        }
-        
+        }  
     }
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // if (mineFinder(x, y) === 0 && checkImage(idx)) {
-    //     revealed++;
-    //     scoreBoard.textContent = `${score++}`;
-    //     emptyBoxArray[idx].src = 'images/0.jpg';
-        
-    //     if (mineFinder(x - 1, y) === 0 && checkImage(idx - 1)  && x > 0 && x < rows ) reveal(x - 1, y);                                      //revealing to the left
-    //     else if ((mineFinder(x - 1, y) === 1 || mineFinder(x - 1, y) === 2 || mineFinder(x - 1, y) === 3
-    //         || mineFinder(x - 1, y) === 4)) {
-    //         emptyBoxArray[idx - 1].src = `images/${mineFinder(x - 1, y)}.png`;
-    //         minesweeper.numbers++;
-    //         scoreBoard.textContent = `${score++}`;
-    //     }
-    //     if (mineFinder(x, y - 1) === 0 && checkImage(idx - columns) && y >= 0  ) reveal(x, y - 1);              //revealing toward up
-    //     else if ((mineFinder(x, y - 1) === 1 || mineFinder(x, y - 1) === 2 || mineFinder(x, y - 1) === 3
-    //         || mineFinder(x, y - 1) === 4 || mineFinder(x, y - 1) === 5) /*&& checkImage(idx - columns)*/) {
-    //             emptyBoxArray[idx - columns].src = `images/${mineFinder(x, y - 1)}.png`;
-    //             minesweeper.numbers++;
-    //             scoreBoard.textContent = `${score++}`;
-    //         }
-    //     if (mineFinder(x + 1, y) === 0 && x < rows - 1 && x < rows && x >= 0) reveal(x + 1, y);                       //revealing to the right
-    //     else if (mineFinder(x + 1, y) === 1 || mineFinder(x + 1, y) === 2 || mineFinder(x + 1, y) === 3 ||
-    //     mineFinder(x + 1, y) === 4) {
-    //         emptyBoxArray[idx + 1].src = `images/${mineFinder(x + 1, y)}.png`;
-    //         minesweeper.numbers++;
-    //         scoreBoard.textContent = `${score++}`;
-    //     }
-    //     if (mineFinder(x, y + 1) === 0 && checkImage(idx + columns) && y < rows-1 && y>= 0) reveal(x, y + 1);              //revealing toward down
-    //     else if ((mineFinder(x, y + 1) === 1 || mineFinder(x, y + 1) === 2 || mineFinder(x, y + 1) === 3
-    //         || mineFinder(x, y + 1) === 4 ) /*&& checkImage(idx + columns)*/) {
-    //         emptyBoxArray[idx + columns].src = `images/${mineFinder(x, y + 1)}.png`;
-    //         minesweeper.numbers++;
-    //         scoreBoard.textContent = `${score++}`;
-    //     }
-    //     if (mineFinder(x + 1, y + 1) === 0 && x < rows - 1 && checkImage(idx + columns + 1) && y < columns - 2 && x < rows - 2) reveal(x + 1, y + 1);      //revealing to the bottom right
-    //     else if (mineFinder(x + 1, y + 1) === 1 || mineFinder(x + 1, y + 1) === 2 || mineFinder(x + 1, y + 1) === 3
-    //         || mineFinder(x + 1, y + 1) === 4) {
-    //         emptyBoxArray[idx + columns + 1].src = `images/${mineFinder(x + 1, y + 1)}.png`;
-    //         minesweeper.numbers++;
-    //         scoreBoard.textContent = `${score++}`;
-    //     }
-    //     if (mineFinder(x - 1, y + 1) === 0 && checkImage(idx + columns - 1) && x > 0 && y < columns - 1) reveal(x - 1, y + 1);                   //revealing to the bottom left
-    //     else if (mineFinder(x - 1, y + 1) === 1 || mineFinder(x - 1, y + 1) === 2 || mineFinder(x - 1, y + 1) === 3
-    //         || mineFinder(x - 1, y + 1) === 4 || mineFinder(x - 1, y + 1) === 5  && x >= 0 && y >= 0 && y < columns && x < rows/*&& checkImage(idx + columns + 1)*/) {
-    //         emptyBoxArray[idx + columns - 1].src = `images/${mineFinder(x - 1, y + 1)}.png`;
-    //         minesweeper.numbers++;
-    //         scoreBoard.textContent = `${score++}`;
-    //     }
-    //     if (mineFinder(x + 1, y - 1) === 0 && checkImage(idx - columns + 1)  && x < rows - 2  ) reveal(x + 1, y - 1);   //revealing to the up right
-    //     else if (mineFinder(x + 1, y - 1) === 1 || mineFinder(x + 1, y - 1) === 2 || mineFinder(x + 1, y - 1) === 3
-    //         || mineFinder(x + 1, y - 1) === 4) {
-    //         emptyBoxArray[idx - columns + 1].src = `images/${mineFinder(x + 1, y - 1)}.png`;
-    //         minesweeper.numbers++;
-    //         scoreBoard.textContent = `${score++}`;
-    //    }
-    //     if (mineFinder(x - 1, y - 1) === 0 && checkImage(idx - columns - 1) && x > 0 && y > 0 && y < columns) reveal(x - 1, y - 1);         //revealing to the up left
-    //     else if (mineFinder(x - 1, y - 1) === 1 || mineFinder(x - 1, y - 1) === 2 || mineFinder(x - 1, y - 1) === 3
-    //         || mineFinder(x - 1, y - 1) === 4 || mineFinder(x - 1, y - 1) === 5 && x >= 0 && y >= 0 && y < columns && x < rows) {
-    //         emptyBoxArray[idx - columns - 1].src = `images/${mineFinder(x - 1, y - 1)}.png`;
-    //         minesweeper.numbers++;
-    //         scoreBoard.textContent = `${score++}`;
-    //     }
-    
-    // }
-    
 }
-console.log(mineArray);
+var time = 00;
+var minute = 00;
+function timer(){
+    setTimeout(function(){
+        var timerDiv = document.querySelector('.timer');
+        time++;
+        if(time === 60){
+            minute++;
+            time = 0;
+        }
+        timerDiv.textContent = `${minute}:${time}`;
+        // console.log(time);
+        timer();
+    },1000)
+}
 //run test
 //unit testing
 //jasmine

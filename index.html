@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MINESWEEPER</title>
+    <link href="https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/main.css">
-    
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
     <script defer src="js/main.js"></script>
 </head>
@@ -16,14 +16,24 @@
     <header>
         <nav>
             <img src="images/logo.png" alt="">
-            <h1>Minesweeper</h1>
+            <h1>MINESWEEPER
+            </h1>
             <!-- <a href="file:///Users/meisam/Documents/GApractice/02-mineSweeper/index.html">Home</a>
             <a href="mailto: meisam.poorzand@gmail.com">Contact us</a>
             <a href="http://www.meisam.org/">Portfolio</a> -->
         </nav>
     </header>
+    <div class="inputs">
+        <input class="minesnum" type="text" placeholder="Number of Mines">
+        <input class="rownum"type="text" placeholder="Number of Rows & Columns">
+        <!-- <input class="colnum"type="text" placeholder="Number of Columns"> -->
+    </div>
+    
     <button class="start">Welcome to Minesweeper<br>Click To Start</button>
     <main>
+        <div class="timer">
+            0
+        </div>
         <table>
             <tr>
                 <td class='flagboard'>00</td>
@@ -38,7 +48,8 @@
     <div class="winboard">
         <p></p>
         <!-- Yu Faynali Von, Nays Jab!!! -->
-        <button class="resetgame"><a href="index.html">Play Again</a></button>
+        <!-- <button class="resetgame"><a href="index.html">Play Again</a></button> -->
+        <button class="resetgame">Play Again</button>
     </div>
 </body>
 </html>
