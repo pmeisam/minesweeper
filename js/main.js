@@ -20,7 +20,9 @@ const minesweeper = {
 };
 const sound = new Audio('sounds/explosion.mp3');
 /*----- variables -----*/
-var width;
+var width, mobWidth, gameTime, cells, emptyBoxArray, mineArray, revealArray, mines, gameOver, score, revealed;
+var time = 00;
+var minute = 00;
 /*----- cached element references -----*/
 const canvas = document.querySelector('.canvas');
 const main = document.querySelector('main');
@@ -48,6 +50,7 @@ function init() {
     score = 1;
     revealed = 0;
     width = 0;
+    mobWidth = 0;
 }
 
 function render() {
@@ -98,7 +101,18 @@ var startBtn = $startBtn.on('click', function () {
     //     width = (minesweeper.columns * 25) + 5;
     //     $('img').css("width","25px");
     // }
-    $("main").css('width', `${width}px`);
+    mobWidth = (minesweeper.columns * 19) + 5;
+    // $("main").css('width', `${mobWidth}px`);
+    var x = window.matchMedia("(min-width: 768px)")
+    myFunction(x) // Call listener function at run time
+    x.addListener(myFunction) 
+    function myFunction(x) {
+        if (x.matches) { // If media query matches
+            $('main').css('width', `${width}`);
+        } else {
+            $('main').css('width', `${mobWidth}`);
+        }
+    }
     $canvas.fadeIn(3000);
     $canvas.css('display','flex');
     $(render()).toggle(3000);
@@ -126,7 +140,7 @@ function play(evt) {
             emptyBoxArray[mineArray[i]].src = minesweeper.mineImg;
         sound.play();
         gameOver = true;
-        $(".winboard p").html("You Lost hahaha ;)");
+        $(".winboard p").html(`You Lost hahaha ;)<br>Time: ${gameTime}`);
         $(".winboard").css("backgroundColor", "rgba(233,77,96,0.7)");
         $(".winboard").css('display', 'flex');
         $('.resetgame').css('display', 'block');
@@ -140,8 +154,6 @@ function play(evt) {
             minesweeper.numbers++;
         }
     }
-    
-    
 }
 
 function mineFinder(a, b) {
@@ -165,6 +177,32 @@ var arrayCheck = function (a, b) {
     } else return false;
 }
 
+$(function(){
+    $( "main" ).bind( "taphold", tapholdHandler );
+    function tapholdHandler( evt ){
+      $( event.target ).preventDefault();
+      if (!emptyBoxArray[evt.target.id].src.includes('images/flag.png')  && checkImage(evt.target.id)) {
+        evt.target.src = minesweeper.flagImg;
+        minesweeper.flags++;
+        flagBoard.textContent = `${--mines}`;
+        if (mines <= 0) {
+            // $('.winboard p').css('fontSize',"40px");
+            $(".winboard p").html(`You Unfortunately Won :(<br>Time: ${gameTime}`);
+            $(".winboard").css("backgroundColor", "rgba(97,207,78,0.7)");
+            $(".winboard").css('display', 'flex');
+            $('.resetgame').css('display', 'block');
+            // $('.resetgame').css('margin-top', '-30px');
+            $('main').css('display', 'fixed');
+            document.querySelector('.faceImg').src = "images/sunglasses.jpg"
+        }
+    } else if (emptyBoxArray[evt.target.id].src.includes('images/flag.png') ) {
+        evt.target.src = minesweeper.emptyBox;
+        flagBoard.textContent = `${++mines}`;
+        minesweeper.flags--;                             //I have to work on this part
+    }
+    }
+});
+
 $canvas.on('contextmenu', function (evt) {
     evt.preventDefault();
     if (!emptyBoxArray[evt.target.id].src.includes('images/flag.png')  && checkImage(evt.target.id)) {
@@ -173,7 +211,7 @@ $canvas.on('contextmenu', function (evt) {
         flagBoard.textContent = `${--mines}`;
         if (mines <= 0) {
             // $('.winboard p').css('fontSize',"40px");
-            $(".winboard p").html(`You Unfortunately Won :(`);
+            $(".winboard p").html(`You Unfortunately Won :( <br>Time: ${gameTime}`);
             $(".winboard").css("backgroundColor", "rgba(97,207,78,0.7)");
             $(".winboard").css('display', 'flex');
             $('.resetgame').css('display', 'block');
@@ -246,8 +284,7 @@ function reveal(x, y) {
         }  
     }
 }
-var time = 00;
-var minute = 00;
+
 function timer(){
     setTimeout(function(){
         var timerDiv = document.querySelector('.timer');
@@ -259,6 +296,7 @@ function timer(){
         timerDiv.textContent = `${minute}:${time}`;
         // console.log(time);
         timer();
+        gameTime = `${minute}:${time}`;
     },1000)
 }
 //run test
