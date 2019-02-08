@@ -89,51 +89,51 @@ function render() {
         else
             revealArray[i] = 0
     }
-    
+
 }
 var startBtn = $startBtn.on('click', function () {
     minesweeper.mines = parseInt($(".minesnum").val());
     minesweeper.rows = parseInt($(".rownum").val());
     minesweeper.columns = parseInt($(".rownum").val());
-    if(parseInt($(".rownum").val()) >= 100) 
-    {
+    if (parseInt($(".rownum").val()) >= 100) {
         minesweeper.columns = 100;
         minesweeper.rows = 10;
     }
-    if(parseInt($(".rownum").val()) <= 10) {
+    if (parseInt($(".rownum").val()) <= 10) {
         minesweeper.columns = 10;
         minesweeper.rows = 10;
     }
 
-    if($(".rownum").val().length === 0 ){
+    if ($(".rownum").val().length === 0) {
         minesweeper.columns = 16;
         minesweeper.rows = 16;
     }
-    if(minesweeper.mines >= 1000) minesweeper.mines = 1000;
-    if($(".minesnum").val().length === 0) minesweeper.mines = 50;
+    if (minesweeper.mines >= 1000) minesweeper.mines = 1000;
+    if ($(".minesnum").val().length === 0) minesweeper.mines = 50;
 
     width = (minesweeper.columns * 30) + 5;
-    
+
     mobWidth = (minesweeper.columns * 19) + 5;
     var x = window.matchMedia("(min-width: 768px)")
     myFunction(x);
-    x.addListener(myFunction) 
+    x.addListener(myFunction)
     function myFunction(x) {
-        if (x.matches) {;
+        if (x.matches) {
+            ;
             $('main').css('width', `${width}`);
         } else {
             $('main').css('width', `${mobWidth}`);
         }
     }
     $canvas.fadeIn(3000);
-    $canvas.css('display','flex');
+    $canvas.css('display', 'flex');
     $(render()).toggle(3000);
     $startBtn.toggle(3000);
     $('.inputs').fadeOut(2000);
     timer();
 });
 
-$('.resetgame').on('click', function(){
+$('.resetgame').on('click', function () {
     window.location.href = "http://www.meisam.org/minesweeper/index.html";
 });
 
@@ -145,7 +145,7 @@ function play(evt) {
     console.log(evt.target);
     console.log(idx);
 
-    if(evt.target.id === NaN) return;
+    if (evt.target.id === NaN) return;
     if (mineArray.includes(idx)) {
         evt.target.src = minesweeper.mineImg;
         for (var i = 0; i < minesweeper.mines; i++)
@@ -153,16 +153,15 @@ function play(evt) {
         sound.play();
         gameOver = true;
         $(".winboard p").html(`You Lost hahaha ;)<br>Time: ${gameTime}`);
-        $(".winboard").css("backgroundColor", "rgba(233,77,96,0.7)");
+        $(".winboard").css("color", "rgba(233,77,96,1)");
         $(".winboard").css('display', 'flex');
         $('.resetgame').css('display', 'block');
         $('main').css('display', 'fixed');
         document.querySelector('.faceImg').src = "images/dead.png"
     } else if (gameOver === false) {
         if (mineFinder(x, y) === 0) reveal(x, y);
-        else if(evt.target != $(".canvas") ){
+        else if (evt.target != $(".canvas")) {
             evt.target.src = `images/${mineFinder(x, y)}.png`;
-            scoreBoard.textContent = `${score++}`;
             minesweeper.numbers++;
         }
     }
@@ -189,58 +188,54 @@ var arrayCheck = function (a, b) {
     } else return false;
 }
 
-$(function(){
-    $( "main" ).bind( "taphold", tapholdHandler );
-    function tapholdHandler( evt ){
-      $( evt.target ).preventDefault();
-      if (!emptyBoxArray[evt.target.id].src.includes('images/flag.png')  && checkImage(evt.target.id)) {
-        evt.target.src = minesweeper.flagImg;
-        minesweeper.flags++;
-        flagBoard.textContent = `${--mines}`;
-        if (mines <= 0) {
-            // $('.winboard p').css('fontSize',"40px");
-            $(".winboard p").html(`You Unfortunately Won :(<br>Time: ${gameTime}`);
-            $(".winboard").css("backgroundColor", "rgba(97,207,78,0.7)");
-            $(".winboard").css('display', 'flex');
-            $('.resetgame').css('display', 'block');
-            // $('.resetgame').css('margin-top', '-30px');
-            $('main').css('display', 'fixed');
-            document.querySelector('.faceImg').src = "images/sunglasses.jpg"
+$(function () {
+    $("main").bind("taphold", tapholdHandler);
+    function tapholdHandler(evt) {
+        $(evt.target).preventDefault();
+        if (!emptyBoxArray[evt.target.id].src.includes('images/flag.png') && checkImage(evt.target.id)) {
+            evt.target.src = minesweeper.flagImg;
+            minesweeper.flags++;
+            flagBoard.textContent = `${--mines}`;
+            if (mines <= 0) {
+                $(".winboard p").html(`You Unfortunately Won :(<br>Time: ${gameTime}`);
+                $(".winboard").css("color", "rgba(97,207,78,1)");
+                $(".winboard").css('display', 'flex');
+                $('.resetgame').css('display', 'block');
+                $('main').css('display', 'fixed');
+                document.querySelector('.faceImg').src = "images/sunglasses.jpg"
+            }
+        } else if (emptyBoxArray[evt.target.id].src.includes('images/flag.png')) {
+            evt.target.src = minesweeper.emptyBox;
+            flagBoard.textContent = `${++mines}`;
+            minesweeper.flags--;
         }
-    } else if (emptyBoxArray[evt.target.id].src.includes('images/flag.png') ) {
-        evt.target.src = minesweeper.emptyBox;
-        flagBoard.textContent = `${++mines}`;
-        minesweeper.flags--;                             //I have to work on this part
-    }
     }
 });
 
 $canvas.on('contextmenu', function (evt) {
     evt.preventDefault();
-    if (!emptyBoxArray[evt.target.id].src.includes('images/flag.png')  && checkImage(evt.target.id)) {
+    if (!emptyBoxArray[evt.target.id].src.includes('images/flag.png') && checkImage(evt.target.id)) {
         evt.target.src = minesweeper.flagImg;
         minesweeper.flags++;
         flagBoard.textContent = `${--mines}`;
         if (mines <= 0) {
-            // $('.winboard p').css('fontSize',"40px");
             $(".winboard p").html(`You Unfortunately Won :( <br>Time: ${gameTime}`);
-            $(".winboard").css("backgroundColor", "rgba(97,207,78,0.7)");
+            $(".winboard").css("color", "rgba(97,207,78,1)");
             $(".winboard").css('display', 'flex');
             $('.resetgame').css('display', 'block');
-            // $('.resetgame').css('margin-top', '-30px');
             $('main').css('display', 'fixed');
             document.querySelector('.faceImg').src = "images/sunglasses.jpg"
         }
-    } else if (emptyBoxArray[evt.target.id].src.includes('images/flag.png') ) {
+    } else if (emptyBoxArray[evt.target.id].src.includes('images/flag.png')) {
         evt.target.src = minesweeper.emptyBox;
         flagBoard.textContent = `${++mines}`;
-        minesweeper.flags--;                             //I have to work on this part
+        minesweeper.flags--;
     }
 });
 
 function checkImage(a) {
     if (a <= 0) a = 0;
-    else if (a >= minesweeper.columns*minesweeper.rows) a = minesweeper.columns*minesweeper.rows;
+    else if (a >= minesweeper.columns * minesweeper.rows) a = minesweeper.columns * minesweeper.rows;
     if (emptyBoxArray[a].src.includes('images/emptyBox.png')) return true;
     else return false;
 }
@@ -249,59 +244,49 @@ function reveal(x, y) {
     var idx = (y * minesweeper.columns) + x;
     var rows = minesweeper.rows;
     var columns = minesweeper.columns;
-    // debugger
-    if( x < 0 && y < 0 && x >= rows && y >= columns) return;
-    else if( checkImage(idx) && mineFinder(x,y) === 0){
+    if (x < 0 && y < 0 && x >= rows && y >= columns) return;
+    else if (checkImage(idx) && mineFinder(x, y) === 0) {
         emptyBoxArray[idx].src = 'images/0.jpg';
-        scoreBoard.textContent = `${score++}`;
-        if(mineFinder(x-1,y)===0 && x>0) reveal(x-1,y);
-        else if(mineFinder(x-1,y) !== 0 && x>0){
-            emptyBoxArray[idx-1].src = `images/${mineFinder(x-1,y)}.png`;
-            scoreBoard.textContent = `${score++}`;
+        if (mineFinder(x - 1, y) === 0 && x > 0) reveal(x - 1, y);
+        else if (mineFinder(x - 1, y) !== 0 && x > 0) {
+            emptyBoxArray[idx - 1].src = `images/${mineFinder(x - 1, y)}.png`;
         }
-        if(mineFinder(x+1,y)===0 && x < rows-1) reveal(x+1,y); 
-        else if(mineFinder(x+1,y) !== 0 && x < rows - 1){
-            emptyBoxArray[idx+1].src=`images/${mineFinder(x+1,y)}.png`;
-            scoreBoard.textContent = `${score++}`;
-        } 
-        if(mineFinder(x,y+1)===0 && y < columns-1) reveal(x,y+1);
-        else if(mineFinder(x,y+1) !==0 && y < columns-1){
-            emptyBoxArray[idx+columns].src=`images/${mineFinder(x,y+1)}.png`;
-            scoreBoard.textContent = `${score++}`;
-        } 
-        if(mineFinder(x,y-1) === 0 && y > 0) reveal(x,y-1);
-        else if(mineFinder(x,y-1) !== 0 && y > 0) {
-            emptyBoxArray[idx-columns].src=`images/${mineFinder(x,y-1)}.png`;
-            scoreBoard.textContent = `${score++}`;
+        if (mineFinder(x + 1, y) === 0 && x < rows - 1) reveal(x + 1, y);
+        else if (mineFinder(x + 1, y) !== 0 && x < rows - 1) {
+            emptyBoxArray[idx + 1].src = `images/${mineFinder(x + 1, y)}.png`;
         }
-        if(mineFinder(x-1,y-1) === 0 && x > 0 && y > 0) reveal(x-1,y-1);
-        else if(mineFinder(x-1,y-1) !== 0 && x > 0 && y > 0) {
-            emptyBoxArray[idx-columns-1].src = `images/${mineFinder(x-1,y-1)}.png`;    
-            scoreBoard.textContent = `${score++}`;
+        if (mineFinder(x, y + 1) === 0 && y < columns - 1) reveal(x, y + 1);
+        else if (mineFinder(x, y + 1) !== 0 && y < columns - 1) {
+            emptyBoxArray[idx + columns].src = `images/${mineFinder(x, y + 1)}.png`;
         }
-        if(mineFinder(x+1,y-1) === 0 && x < columns-1 && y > 0 ) reveal(x+1,y-1);
-        else if(mineFinder(x+1,y-1) !== 0 && x < columns-1 && y > 0 ) {
-            emptyBoxArray[idx - columns+1].src = `images/${mineFinder(x+1,y-1)}.png`;
-            scoreBoard.textContent = `${score++}`;
+        if (mineFinder(x, y - 1) === 0 && y > 0) reveal(x, y - 1);
+        else if (mineFinder(x, y - 1) !== 0 && y > 0) {
+            emptyBoxArray[idx - columns].src = `images/${mineFinder(x, y - 1)}.png`;
         }
-        if(mineFinder(x-1,y+1) === 0 && x > 0 && y < columns-1) reveal(x-1,y+1);
-        else if(mineFinder(x-1,y+1) !== 0 && x > 0 && y < columns-1) {
-            emptyBoxArray[idx+columns-1].src = `images/${mineFinder(x-1,y+1)}.png`;
-            scoreBoard.textContent = `${score++}`;
+        if (mineFinder(x - 1, y - 1) === 0 && x > 0 && y > 0) reveal(x - 1, y - 1);
+        else if (mineFinder(x - 1, y - 1) !== 0 && x > 0 && y > 0) {
+            emptyBoxArray[idx - columns - 1].src = `images/${mineFinder(x - 1, y - 1)}.png`;
         }
-        if(mineFinder(x+1,y+1) === 0 && x < columns-1 && y < columns-1) reveal(x+1,y+1);
-        else if(mineFinder(x+1,y+1) !== 0 && x < columns-1 && y < columns-1) {
-            emptyBoxArray[idx+columns+1].src = `images/${mineFinder(x+1,y+1)}.png`;
-            scoreBoard.textContent = `${score++}`;
-        }  
+        if (mineFinder(x + 1, y - 1) === 0 && x < columns - 1 && y > 0) reveal(x + 1, y - 1);
+        else if (mineFinder(x + 1, y - 1) !== 0 && x < columns - 1 && y > 0) {
+            emptyBoxArray[idx - columns + 1].src = `images/${mineFinder(x + 1, y - 1)}.png`;
+        }
+        if (mineFinder(x - 1, y + 1) === 0 && x > 0 && y < columns - 1) reveal(x - 1, y + 1);
+        else if (mineFinder(x - 1, y + 1) !== 0 && x > 0 && y < columns - 1) {
+            emptyBoxArray[idx + columns - 1].src = `images/${mineFinder(x - 1, y + 1)}.png`;
+        }
+        if (mineFinder(x + 1, y + 1) === 0 && x < columns - 1 && y < columns - 1) reveal(x + 1, y + 1);
+        else if (mineFinder(x + 1, y + 1) !== 0 && x < columns - 1 && y < columns - 1) {
+            emptyBoxArray[idx + columns + 1].src = `images/${mineFinder(x + 1, y + 1)}.png`;
+        }
     }
 }
 
-function timer(){
-    setTimeout(function(){
+function timer() {
+    setTimeout(function () {
         var timerDiv = document.querySelector('.timer');
         time++;
-        if(time === 60){
+        if (time === 60) {
             minute++;
             time = 0;
         }
@@ -309,10 +294,5 @@ function timer(){
         // console.log(time);
         timer();
         gameTime = `${minute}:${time}`;
-    },1000)
+    }, 1000)
 }
-//run test
-//unit testing
-//jasmine
-//debugger
-//console.log

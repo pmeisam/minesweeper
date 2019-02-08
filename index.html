@@ -1,6 +1,6 @@
-<!-- Feb 2019 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,19 +14,15 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
     <script defer src="js/main.js"></script>
 </head>
+
 <body>
     <header>
         <nav>
             <img src="images/logo.png" alt="">
             <h1>MINESWEEPER
             </h1>
-            <!-- <a href="file:///Users/meisam/Documents/GApractice/02-mineSweeper/index.html">Home</a>
-            <a href="mailto: meisam.poorzand@gmail.com">Contact us</a>
-            <a href="http://www.meisam.org/">Portfolio</a> -->
         </nav>
     </header>
-    
-
     <div class="inputs">
         <p>Default: 16x16, 50 mines</p>
         <p>Maximun no. of columns and rows: 100</p>
@@ -34,29 +30,22 @@
         <input class="minesnum" type="number" placeholder="Number of Mines">
         <input class="rownum" type="number" placeholder="Number of Rows & Columns">
     </div>
-    
     <button class="start">Welcome to Minesweeper<br>Click To Start</button>
     <main>
-        
-        <div class="timer">
-            0
-        </div>
         <table>
             <tr>
                 <td class='flagboard'>00</td>
                 <td><img class="faceImg" src="images/smileYellow.png"></td>
-                <td class="scoreboard">00</td>
+                <td class="timer"></td>
             </tr>
         </table>
         <div class="canvas">
-            
         </div>
     </main>
     <div class="winboard">
         <p></p>
-        <!-- Yu Faynali Von, Nays Jab!!! -->
-        <!-- <button class="resetgame"><a href="index.html">Play Again</a></button> -->
         <button class="resetgame">Play Again</button>
     </div>
 </body>
+
 </html>
