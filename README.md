@@ -1,4 +1,4 @@
-<h1>Mineseeper Game</h1>
+<h1>Minesweeper Game</h1>
 
 ![Imgur](https://i.imgur.com/s9LDjBo.png)
 ![Imgur](https://i.imgur.com/sBrp5O7.png)
