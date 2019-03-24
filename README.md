@@ -1,4 +1,4 @@
-<h1>Mineseeper Game</h1>
+<h1>Minesweeper Game</h1>
 
 ![Imgur](https://i.imgur.com/s9LDjBo.png)
 ![Imgur](https://i.imgur.com/sBrp5O7.png)
@@ -23,10 +23,4 @@ In the below section of code I used jQuery to animate the start button and get t
 ![Imgur](https://i.imgur.com/3LmCsuw.png)
 
 <h2>Unsolved Problems</h2>
-My plan for the future is to add the ability to choose between beginner, intermediate.
-
-
-
-
-
-
+My plan for the future is to add the ability to choose between beginner, intermediate, and advanced modes.
