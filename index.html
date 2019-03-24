@@ -1,51 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>MINESWEEPER</title>
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <style type="text/css"></style>
-    <link href="https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/main.css">
+    <link
+      href="https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Orbitron"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="css/main.css" />
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
     <script defer src="js/main.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <header>
-        <nav>
-            <img src="images/logo.png" alt="">
-            <h1>MINESWEEPER
-            </h1>
-        </nav>
+      <nav>
+        <img src="images/logo.png" alt="" />
+        <h1>MINESWEEPER</h1>
+      </nav>
     </header>
     <div class="inputs">
-        <p>Default: 16x16, 50 mines</p>
-        <p>Maximun no. of columns and rows: 100</p>
-        <p>Maximum no. of mines: 1000</p>
-        <input class="minesnum" type="number" placeholder="Number of Mines">
-        <input class="rownum" type="number" placeholder="Number of Rows & Columns">
+      <p>Default: 16x16, 50 mines</p>
+      <p>Maximun no. of columns and rows: 100</p>
+      <p>Maximum no. of mines: 1000</p>
+      <input class="minesnum" type="number" placeholder="Number of Mines" />
+      <input
+        class="rownum"
+        type="number"
+        placeholder="Number of Rows & Columns"
+      />
     </div>
-    <button class="start">Welcome to Minesweeper<br>Click To Start</button>
+    <button class="start">Click To Start</button>
     <main>
-        <table>
-            <tr>
-                <td class='flagboard'>00</td>
-                <td><img class="faceImg" src="images/smileYellow.png"></td>
-                <td class="timer"></td>
-            </tr>
-        </table>
-        <div class="canvas">
-        </div>
+      <table>
+        <tr>
+          <td class="flagboard">00</td>
+          <td><img class="faceImg" src="images/smileYellow.png" /></td>
+          <td class="timer"></td>
+        </tr>
+      </table>
+
+      <div class="canvas"></div>
     </main>
     <div class="winboard">
-        <p></p>
-        <button class="resetgame">Play Again</button>
+      <p></p>
+      <button class="resetgame">Play Again</button>
     </div>
-</body>
-
+  </body>
 </html>
