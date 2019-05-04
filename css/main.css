@@ -236,7 +236,7 @@ input {
         font-size: 30px;
     }
     .timer {
-        width: 100px;
+        width: 120px;
         height: 70px;
         background-color:rgb(0, 0, 0);
         color: rgb(172, 147, 8);
@@ -245,6 +245,8 @@ input {
         font-family: 'Orbitron', sans-serif; 
         font-weight: bolder;
         font-size: 30px;
+        text-align: center;
+        line-height: 10px;
     }
     .faceImg {
         width: 50px;

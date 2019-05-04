@@ -140,7 +140,7 @@ var startBtn = $startBtn.on("click", function() {
 });
 
 $(".resetgame").on("click", function() {
-    window.location.href = "http://www.meisam.org/minesweeper/";
+  window.location.href = "http://www.meisam.org/minesweeper/";
 });
 
 function play(evt) {
@@ -321,8 +321,11 @@ function timer() {
       minute++;
       time = 0;
     }
-    timerDiv.textContent = `${minute}:${time}`;
-    // console.log(time);
+    // minute = minute < 10 ? "0" + minute : minute;
+    // time = time < 10 ? "0" + time : time;
+    timerDiv.textContent = `${minute < 10 ? "0" + minute : minute}:${
+      time < 10 ? "0" + time : time
+    }`;
     timer();
     gameTime = `${minute}:${time}`;
   }, 1000);
