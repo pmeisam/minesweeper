@@ -16,7 +16,8 @@ const minesweeper = {
   mines: 50,
   revealed: 0,
   flags: 0,
-  numbers: 0
+  numbers: 0,
+  flagsArr: []
 };
 const sound = new Audio("sounds/explosion.mp3");
 /*----- variables -----*/
@@ -30,7 +31,8 @@ var width,
   mines,
   gameOver,
   score,
-  revealed;
+  revealed,
+  timerBool = true;
 var time = 00;
 var minute = 00;
 /*----- cached element references -----*/
@@ -93,11 +95,49 @@ function render() {
       mines++;
     }
   }
+  quickSort(mineArray, 0, mineArray.length - 1);
   for (var i = 0; i < minesweeper.rows * minesweeper.columns; i++) {
     if (mineArray.includes(i)) revealArray[i] = "mine";
     else revealArray[i] = 0;
   }
 }
+
+function swap(arr, leftIndex, rightIndex) {
+  let temp = arr[leftIndex];
+  arr[leftIndex] = arr[rightIndex];
+  arr[rightIndex] = temp;
+}
+
+function partition(arr, left, right) {
+  let pivot = arr[Math.floor((right + left) / 2)],
+    i = left,
+    j = right;
+  while (i <= j) {
+    while (arr[i] < pivot) {
+      i++;
+    }
+    while (arr[j] > pivot) {
+      j--;
+    }
+    if (i <= j) {
+      swap(arr, i, j);
+      i++;
+      j--;
+    }
+  }
+  return i;
+}
+
+function quickSort(arr, left, right) {
+  let index;
+  if (arr.length > 1) {
+    index = partition(arr, left, right);
+    if (left < index - 1) quickSort(arr, left, index - 1);
+    if (index < right) quickSort(arr, index, right);
+  }
+  return arr;
+}
+
 var startBtn = $startBtn.on("click", function() {
   minesweeper.mines = parseInt($(".minesnum").val());
   minesweeper.rows = parseInt($(".rownum").val());
@@ -147,9 +187,14 @@ function play(evt) {
   var x = parseInt(evt.target.id % minesweeper.rows);
   var y = parseInt(Math.floor(evt.target.id / minesweeper.columns));
   var idx = parseInt(evt.target.id);
-  console.log(`(${x},${y})`);
-  console.log(evt.target);
-  console.log(idx);
+  if (mines === 0 && arrayEqual(mineArray, minesweeper.flagsArr)) {
+    $(".winboard p").html(`You Unfortunately Won :( <br>Time: ${gameTime}`);
+    $(".winboard").css("color", "rgba(97,207,78,1)");
+    $(".winboard").css("display", "flex");
+    $(".resetgame").css("display", "block");
+    $("main").css("display", "fixed");
+    document.querySelector(".faceImg").src = "images/sunglasses.jpg";
+  }
   if (evt.target.id === NaN) return;
   if (mineArray.includes(idx)) {
     evt.target.src = minesweeper.mineImg;
@@ -157,6 +202,7 @@ function play(evt) {
       emptyBoxArray[mineArray[i]].src = minesweeper.mineImg;
     sound.play();
     gameOver = true;
+    timerBool = false;
     $(".winboard p").html(`You Lost hahaha ;)<br>Time: ${gameTime}`);
     $(".winboard").css("color", "rgba(233,77,96,1)");
     $(".winboard").css("display", "flex");
@@ -165,7 +211,10 @@ function play(evt) {
     document.querySelector(".faceImg").src = "images/dead.png";
   } else if (gameOver === false) {
     if (mineFinder(x, y) === 0) reveal(x, y);
-    else if (evt.target != $(".canvas")) {
+    else if (
+      evt.target != $(".canvas") &&
+      evt.target.attributes.src.nodeValue !== "images/flag.png"
+    ) {
       evt.target.src = `images/${mineFinder(x, y)}.png`;
       minesweeper.numbers++;
     }
@@ -220,6 +269,15 @@ $(function() {
   }
 });
 
+function arrayEqual(arr1, arr2) {
+  let bool = true;
+  if (arr1.length !== arr2.length) return false;
+  arr1.forEach((el, i) => {
+    if (arr1[i] !== arr2[i]) bool = false;
+  });
+  return bool;
+}
+
 $canvas.on("contextmenu", function(evt) {
   evt.preventDefault();
   if (
@@ -229,18 +287,24 @@ $canvas.on("contextmenu", function(evt) {
     evt.target.src = minesweeper.flagImg;
     minesweeper.flags++;
     flagBoard.textContent = `${--mines}`;
-    if (mines <= 0) {
+    minesweeper.flagsArr.push(parseInt(evt.target.id));
+    quickSort(minesweeper.flagsArr, 0, minesweeper.flagsArr.length - 1);
+    if (mines === 0 && arrayEqual(mineArray, minesweeper.flagsArr)) {
       $(".winboard p").html(`You Unfortunately Won :( <br>Time: ${gameTime}`);
       $(".winboard").css("color", "rgba(97,207,78,1)");
       $(".winboard").css("display", "flex");
       $(".resetgame").css("display", "block");
       $("main").css("display", "fixed");
+      timerBool = false;
       document.querySelector(".faceImg").src = "images/sunglasses.jpg";
     }
   } else if (emptyBoxArray[evt.target.id].src.includes("images/flag.png")) {
     evt.target.src = minesweeper.emptyBox;
     flagBoard.textContent = `${++mines}`;
     minesweeper.flags--;
+    minesweeper.flagsArr = minesweeper.flagsArr.filter(
+      el => el != parseInt(evt.target.id)
+    );
   }
 });
 
@@ -326,7 +390,9 @@ function timer() {
     timerDiv.textContent = `${minute < 10 ? "0" + minute : minute}:${
       time < 10 ? "0" + time : time
     }`;
-    timer();
-    gameTime = `${minute}:${time}`;
+    if (timerBool === true) timer();
+    gameTime =`${minute < 10 ? "0" + minute : minute}:${
+      time < 10 ? "0" + time : time
+    }`
   }, 1000);
 }
