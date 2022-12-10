@@ -180,7 +180,7 @@ var startBtn = $startBtn.on("click", function() {
 });
 
 $(".resetgame").on("click", function() {
-  window.location.href = "http://www.meisam.org/minesweeper/";
+  window.location.href = "https://pmeisam.github.io/minesweeper/";
 });
 
 function play(evt) {
